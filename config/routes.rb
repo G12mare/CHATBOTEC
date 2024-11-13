@@ -76,3 +76,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 end
+# config/routes.rb
+Rails.application.routes.draw do
+  # Ruta para la vista principal del chatbot
+  get 'chatbot', to: 'chatbot#index'
+
+  # Ruta para enviar la pregunta y recibir la respuesta del chatbot
+  post 'chatbot/ask', to: 'chatbot#ask'
+end
+

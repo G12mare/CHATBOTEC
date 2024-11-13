@@ -30,3 +30,5 @@ module Chatbotec
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end
+GOOGLE_GEMINI_API_KEY = Rails.application.credentials.dig(:google_gemini, :api_key)
+

@@ -1,0 +1,13 @@
+<h1>Bienvenido al Chatbot</h1>
+
+<!-- Formulario para interactuar con el chatbot -->
+<label for="chatbot_input">Pregunta:</label>
+<textarea id="chatbot_input"></textarea>
+<button onclick="askChatbot()">Preguntar</button>
+
+<!-- Div para mostrar la respuesta -->
+<div id="chatbot_response"></div>
+
+<!-- Asegúrate de que el JS y CSS estén cargados correctamente -->
+<%= javascript_include_tag 'chatbot' %>
+<%= stylesheet_link_tag 'chatbot' %>
