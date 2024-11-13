@@ -1,3 +1,5 @@
+# config/routes.rb
+
 Rails.application.routes.draw do
   mount SolidusPaypalCommercePlatform::Engine, at: '/solidus_paypal_commerce_platform'
   root to: 'home#index'
@@ -66,25 +68,10 @@ Rails.application.routes.draw do
   get '/cart_link', to: 'store#cart_link', as: :cart_link
 
   # This line mounts Solidus's routes at the root of your application.
-  # This means, any requests to URLs such as /products, will go to Spree::ProductsController.
-  # If you would like to change where this engine is mounted, simply change the :at option to something different.
-  #
-  # We ask that you don't use the :as option here, as Solidus relies on it being the default of "spree"
   mount Spree::Core::Engine, at: '/'
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  # Defines the root path route ("/")
-  # root "articles#index"
-end
-# config/routes.
-Rails.application.routes.draw do
-  # Ruta para la vista principal del chatbot
+  # Rutas para el chatbot
   get 'chatbot', to: 'chatbot#index'
-
-  # Ruta para enviar la pregunta y recibir la respuesta del chatbot
   post 'chatbot/ask', to: 'chatbot#ask'
-
-  # Ruta para el reconocimiento
   post 'recognition', to: 'chatbot#recognition'
 end
-
