@@ -118,4 +118,5 @@ gem 'google-cloud', '~> 0.63.0'
 
 # Si realmente necesitas 'httparty', lo dejo aquí
 gem 'httparty'
+gem 'mutex_m'
 

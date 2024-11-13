@@ -4,6 +4,7 @@
 <label for="chatbot_input">Pregunta:</label>
 <textarea id="chatbot_input"></textarea>
 <button onclick="askChatbot()">Preguntar</button>
+<button onclick="startVoiceRecognition()">Escuchar</button> <!-- Botón para activar el reconocimiento de voz -->
 
 <!-- Div para mostrar la respuesta -->
 <div id="chatbot_response"></div>
@@ -11,3 +12,6 @@
 <!-- Asegúrate de que el JS y CSS estén cargados correctamente -->
 <%= javascript_include_tag 'chatbot' %>
 <%= stylesheet_link_tag 'chatbot' %>
+
+<!-- Agregar ResponsiveVoice -->
+<script src="https://code.responsivevoice.org/responsivevoice.js?key=YOUR_API_KEY"></script>

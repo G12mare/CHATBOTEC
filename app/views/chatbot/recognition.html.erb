@@ -1,0 +1,18 @@
+<h1>Bienvenido al Chatbot</h1>
+
+<!-- Formulario para interactuar con el chatbot -->
+<label for="chatbot_input">Pregunta:</label>
+<textarea id="chatbot_input"></textarea>
+
+<!-- Botón para hacer la pregunta -->
+<button onclick="askChatbot()">Preguntar</button>
+
+<!-- Botón para iniciar el reconocimiento de voz -->
+<button onclick="startRecognition()">Escuchar</button>
+
+<!-- Contenedor para mostrar la respuesta del chatbot -->
+<div id="chatbot_response"></div>
+
+<!-- Vincula los scripts -->
+<%= javascript_include_tag 'chatbot' %>
+<%= stylesheet_link_tag 'chatbot' %>

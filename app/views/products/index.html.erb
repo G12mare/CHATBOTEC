@@ -1,25 +1,14 @@
-<div class="products">
-  <aside>
-    <% if "products" == params[:controller] && @taxon %>
-      <%= render 'shared/search/filters', taxon: @taxon %>
-    <% else %>
-      <%= render 'shared/navigation/taxonomies', taxon: @taxon %>
-    <% end %>
-  </aside>
-  <section class="products_section">
-    <% if params[:keywords] %>
-      <% if @products.empty? %>
-        <h6>
-          <%= t('spree.no_products_found') %>
-        </h6>
-      <% else %>
-        <%= render 'products', products: @products, taxon: @taxon %>
-      <% end %>
-    <% else %>
-      <%= render 'products', products: @products, taxon: @taxon %>
-    <% end %>
-  </section>
-</div>
+<h1>Bienvenido al Chatbot</h1>
 
+<!-- Formulario para interactuar con el chatbot -->
+<label for="chatbot_input">Pregunta:</label>
+<textarea id="chatbot_input"></textarea>
+<button onclick="askChatbot()">Preguntar</button>
+<button onclick="startVoiceRecognition()">Escuchar</button> <!-- Botón para entrada de voz -->
 
-  
+<!-- Div para mostrar la respuesta -->
+<div id="chatbot_response"></div>
+
+<!-- Asegúrate de que el JS y CSS estén cargados correctamente -->
+<%= javascript_pack_tag 'chatbot' %>
+<%= stylesheet_link_tag 'chatbot' %>  <!-- Solo si tienes CSS personalizado -->

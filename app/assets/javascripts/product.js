@@ -1,56 +1,57 @@
-window.addEventListener('DOMContentLoaded', () => {
-  const radios = document.querySelectorAll("[data-js='variant-radio']");
-  const thumbnailsLinks = document
-    .querySelectorAll("[data-js='product-thumbnail'] a, [data-js='variant-thumbnail'] a");
-  const productImage = document.querySelector("[data-js='product-main-image']");
-  const variantsThumbnails = document.querySelectorAll("[data-js='variant-thumbnail']");
+// app/javascript/packs/chatbot.js
 
-  if (radios.length > 0) {
-    const selectedRadio = document.querySelector("[data-js='variant-radio'][checked='checked']");
-    updateVariantPrice(selectedRadio);
-    updateVariantImages(selectedRadio.value);
-  }
+// Función para iniciar el reconocimiento de voz
+function startVoiceRecognition() {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+  recognition.lang = 'es-ES';  // Configura el idioma (ajústalo si es necesario)
+  recognition.interimResults = false;
 
-  radios.forEach(radio => {
-    radio.addEventListener('click', () => {
-      updateVariantPrice(radio);
-      updateVariantImages(radio.value);
-    });
-  });
-
-  thumbnailsLinks.forEach(thumbnailLink => {
-    thumbnailLink.addEventListener('click', (event) => {
-      event.preventDefault();
-      updateProductImage(thumbnailLink.href);
-    });
-  });
-
-  function updateVariantPrice(variant) {
-    const variantPrice = variant.dataset.jsPrice;
-    if (variantPrice) {
-      document.querySelector("[data-js='price']").innerHTML = variantPrice;
-    }
+  recognition.onresult = function(event) {
+      const question = event.results[0][0].transcript;
+      document.getElementById("chatbot_input").value = question;
+      askChatbot();  // Llama a la función para procesar la pregunta
   };
 
-  function updateVariantImages(variantId) {
-    selector = "[data-js='variant-thumbnail'][data-js-id='" + variantId + "']";
-    variantsThumbnailsToDisplay = document.querySelectorAll(selector);
-
-    variantsThumbnails.forEach(thumbnail => {
-      thumbnail.style.display = 'none';
-    });
-
-    variantsThumbnailsToDisplay.forEach(thumbnail => {
-      thumbnail.style.display = 'list-item';
-    });
-
-    if(variantsThumbnailsToDisplay.length) {
-      variantFirstImage = variantsThumbnailsToDisplay[0].querySelector('a').href
-      updateProductImage(variantFirstImage);
-    }
+  recognition.onerror = function(event) {
+      console.error('Error en el reconocimiento de voz:', event.error);
   };
 
-  function updateProductImage(imageSrc) {
-    productImage.src = imageSrc;
+  recognition.start();  // Inicia el reconocimiento de voz
+}
+
+// Función para enviar la pregunta al backend y mostrar la respuesta
+function askChatbot() {
+  const question = document.getElementById("chatbot_input").value;
+
+  fetch('/chatbot/ask', {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+      },
+      body: JSON.stringify({ question: question })
+  })
+  .then(response => response.json())
+  .then(data => {
+      document.getElementById("chatbot_response").innerText = data.answer;
+      speakResponse(data.answer);  // Llama a la función para leer la respuesta en voz alta
+  })
+  .catch(error => {
+      console.error('Error:', error);
+      document.getElementById("chatbot_response").innerText = "Hubo un error al procesar tu pregunta.";
+  });
+}
+
+// Función para leer la respuesta en voz alta
+function speakResponse(response) {
+  if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(response);
+      utterance.lang = 'es-ES';  // Configura el idioma (ajústalo si es necesario)
+      window.speechSynthesis.speak(utterance);
+  } else {
+      console.warn("El navegador no soporta Speech Synthesis.");
   }
-});
+}
+
+// Exponer la función globalmente si es necesario
+window.startVoiceRecognition = startVoiceRecognition;
